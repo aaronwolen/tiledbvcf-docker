@@ -1,4 +1,4 @@
-FROM tiledb/tiledb:release
+FROM tiledb/tiledb:1.7.7
 
 # Version of TileDB-VCF to install
 ARG version=0.4.0
