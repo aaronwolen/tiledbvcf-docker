@@ -13,12 +13,14 @@ RUN apt-get update \
 
 RUN pip3 install pandas pybind11==2.3.0 "pyarrow>=0.16.0" "dask>=0.19.0"
 
-RUN wget -P /home/tiledb https://github.com/TileDB-Inc/TileDB-VCF/archive/${version}.tar.gz \
-    && tar xzf /home/tiledb/${version}.tar.gz -C /home/tiledb \
-    && rm /home/tiledb/${version}.tar.gz \
+WORKDIR /tmp
+RUN wget https://github.com/TileDB-Inc/TileDB-VCF/archive/${version}.tar.gz \
+    && tar xzf ${version}.tar.gz \
+    && rm ${version}.tar.gz \
     && cd TileDB-VCF-${version}/apis/python \
     && python3 setup.py install \
     && rsync -rav ../../dist/ /usr/local/ \
-    && rm -rf /home/tiledb/TileDB-VCF-${version}
+    && rm -rf /tmp/TileDB-VCF-${version}
 
+WORKDIR /data
 ENTRYPOINT ["/bin/bash"]
